@@ -19,13 +19,13 @@ import reactor.core.publisher.Mono;
 public class NotificationController {
 	private static final Logger LOG = LoggerFactory.getLogger(NotificationController.class);
 
-	@MessageMapping("randomNotification")
-	public Mono<NotificationResponse> randomNotification() {
-		return Mono.fromSupplier(() -> new NotificationResponse(1, false, "Generated Notification: " + 1));
+	@MessageMapping("sampleNotification")
+	public Mono<NotificationResponse> sampleNotification() {
+		return Mono.just(new NotificationResponse(1, false, "Generated Notification: " + 1));
 	}
 
-	@MessageMapping("randomNotifications")
-	public Flux<NotificationResponse> randomNotifications(NotificationRequest request) {
+	@MessageMapping("sampleNotifications")
+	public Flux<NotificationResponse> sampleNotifications(NotificationRequest request) {
 		return Flux.range(1, request.getLimit())
 				.delayElements(Duration.ofSeconds(request.getIntervalInSeconds())).map(i -> {
 					LOG.info("Generated Notification : {}", i);

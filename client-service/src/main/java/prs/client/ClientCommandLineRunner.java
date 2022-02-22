@@ -30,27 +30,27 @@ public class ClientCommandLineRunner implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		Flux<FeedResponse> randomFeeds = feedRequester.route("randomFeeds")
-				.data(new FeedRequest("req1", 20, 2))
+		Flux<FeedResponse> sampleFeeds = feedRequester.route("sampleFeeds")
+				.data(new FeedRequest("req1", 2, 20))
 				.retrieveFlux(FeedResponse.class);
 
-		Flux<NotificationResponse> randomNotifications = notificationRequester.route("randomNotifications")
-				.data(new NotificationRequest("req2", 26, 1))
+		Flux<NotificationResponse> sampleNotifications = notificationRequester.route("sampleNotifications")
+				.data(new NotificationRequest("req2", 20, 4))
 				.retrieveFlux(NotificationResponse.class);
 
-		randomFeeds
+		sampleFeeds
 			.doOnComplete(() -> LOG.info("Feeds Done!"))
 			.subscribe(feedConsumer, errorConsumer);
 		
-		randomNotifications
+		sampleNotifications
 			.doOnComplete(() -> LOG.info("Notifications Done!"))
 			.subscribe(notificationConsumer,errorConsumer);
 
-		feedRequester.route("randomFeed")
+		feedRequester.route("sampleFeed")
 			.retrieveMono(FeedResponse.class)
 			.subscribe(feedConsumer);
 		
-		notificationRequester.route("randomNotification")
+		notificationRequester.route("sampleNotification")
 			.retrieveMono(NotificationResponse.class)
 			.subscribe(notificationConsumer);
 	}

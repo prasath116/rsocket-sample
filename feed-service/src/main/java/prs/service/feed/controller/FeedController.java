@@ -19,13 +19,13 @@ import reactor.core.publisher.Mono;
 public class FeedController {
 	private static final Logger LOG = LoggerFactory.getLogger(FeedController.class);
 
-	@MessageMapping("randomFeed")
-	public Mono<FeedResponse> randomFeed() {
-		return Mono.fromSupplier(() -> new FeedResponse(1, "New Feed : " + 1));
+	@MessageMapping("sampleFeed")
+	public Mono<FeedResponse> sampleFeed() {
+		return Mono.just(new FeedResponse(1, "New Feed : " + 1));
 	}
 
-	@MessageMapping("randomFeeds")
-	public Flux<FeedResponse> randomFeeds(FeedRequest request) {
+	@MessageMapping("sampleFeeds")
+	public Flux<FeedResponse> sampleFeeds(FeedRequest request) {
 
 		return Flux.range(1, request.getLimit())
 				.delayElements(Duration.ofSeconds(request.getIntervalInSeconds())).map(i -> {
